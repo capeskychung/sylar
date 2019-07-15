@@ -54,9 +54,10 @@ namespace sylar {
 		typedef std::shared_ptr<LogAppender> ptr;
 		virtual ~LogAppender() {}
 
-		virtual void log(LogLevel::Level level, LogEvent::ptr event) = 0;
+		virtual void log(LogLevel::Level level, LogEvent::ptr event) = 0;  //纯虚函数，子类必须实现
 	protected:
 		LogLevel::Level m_level;
+        LogFormatter::ptr m_formatter;
 	};
 
 	// 日志输出器
@@ -93,8 +94,10 @@ namespace sylar {
 		typedef std::shared_ptr<FileLogAppender> ptr;
 		FileLogAppender(const std::string& filename);
 		void log(LogLevel::Level level, LogEvent::ptr event) override; 
+        bool reopen();
 	private:
-		std::string m_name;
+		std::string m_filename;
+        std::ofstream m_filestream;
 
 	};
 }
