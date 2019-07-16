@@ -1,14 +1,14 @@
 cmake_minimum_required (VERSION 2.8)
+cmake_policy(VERSION 2.8)
 project(sylar)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_CXX_FLAGS "$ENV(CXXFLAGS) -rdynamic -o3 -g -Wall -Wno-depredcated -Werror -Wno-unused-function")
+set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -rdynamic -O0 -fPIC -ggdb -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations")
 
 set(LIB_SRC sylar/log.cc)
 
 add_library(sylar SHARED ${LIB_SRC})
-#
-#
+include_directories(.)
 
 add_executable(test tests/test.cc)
 add_dependencies(test sylar)
