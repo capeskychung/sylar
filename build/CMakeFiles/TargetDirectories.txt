@@ -1,0 +1,4 @@
+/mnt/f/Workspace/http/sylar/build/CMakeFiles/rebuild_cache.dir
+/mnt/f/Workspace/http/sylar/build/CMakeFiles/edit_cache.dir
+/mnt/f/Workspace/http/sylar/build/CMakeFiles/test.dir
+/mnt/f/Workspace/http/sylar/build/CMakeFiles/sylar.dir
