@@ -126,7 +126,7 @@ namespace sylar {
 
 
 	Logger::Logger(const std::string& name):m_name(name), m_level(LogLevel::DEBUG){
-		m_formatter.reset(new LogFormatter("%d [%p] %f %l %m %n"));
+		m_formatter.reset(new LogFormatter("%d [%p] %f <%l:%m> %n"));
 	}
 
 	void Logger::addAppender(LogAppender::ptr appender) {
@@ -228,7 +228,7 @@ namespace sylar {
 			}
 
 			if((i + 1) < m_pattern.size()) {
-				if(m_pattern[i] == '%') {
+				if(m_pattern[i + 1] == '%') {
 					nstr.append(1, '%');
 					continue;
 				}
@@ -241,7 +241,9 @@ namespace sylar {
 			std::string fmt;
 
 			while(n < m_pattern.size()) {
-				if(isspace(m_pattern[n])) {
+				if(!isalpha(m_pattern[n]) && m_pattern[n] != '{'
+					&& m_pattern[n] != '}')
+				{
 					break;
 				}
 
@@ -262,25 +264,28 @@ namespace sylar {
 						break;
 					}
 				}
+				++n;
 			}
 
 
 			if(fmt_status == 0) {
 				if(!nstr.empty()) {
 					vec.push_back(std::make_tuple(nstr, "", 0));
+					nstr.clear();
 				}
 				str = m_pattern.substr(i + 1, n -i - 1);
 				vec.push_back(std::make_tuple(str, fmt, 1));
-				i = n;
+				i = n - 1;
 			} else if(fmt_status == 1) {
 				std::cout << "pattern parse error: " << m_pattern << " - " << m_pattern.substr(i) << std::endl;
 				vec.push_back(std::make_tuple("<<pattern_error>>", fmt, 0));
 			} else if(fmt_status == 2) {
 				if(!nstr.empty()) {
 					vec.push_back(std::make_tuple(nstr, "", 0));
+					nstr.clear();
 				}
 				vec.push_back(std::make_tuple(str, fmt, 1));
-				i = n;
+				i = n - 1;
 			}
 		}
 
@@ -324,7 +329,8 @@ namespace sylar {
 					m_items.push_back(it->second(std::get<1>(i)));
 				}
 			}
-			std::cout << std::get<0>(i) << " - " << std::get<1>(i) << " - " << std::get<2>(i) << std::endl;
+			std::cout << "(" << std::get<0>(i) << ") - (" << std::get<1>(i) << ") - (" << std::get<2>(i) << ")" << std::endl;
 		}
+		std::cout << m_items.size() << std::endl;
 	}
 }

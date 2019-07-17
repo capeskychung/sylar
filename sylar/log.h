@@ -89,7 +89,7 @@ namespace sylar {
 		void setLevel(LogLevel::Level val) {m_level = val;}
 		LogLevel::Level getLevel() const {return m_level;}
 	protected:
-		LogLevel::Level m_level;
+		LogLevel::Level m_level = LogLevel::DEBUG;
 		LogFormatter::ptr m_formatter;
 	};
 
