@@ -226,6 +226,13 @@ namespace sylar {
 				nstr.append(1, m_pattern[i]);
 				continue;
 			}
+
+			if((i + 1) < m_pattern.size()) {
+				if(m_pattern[i] == '%') {
+					nstr.append(1, '%');
+					continue;
+				}
+			}
 			size_t n = i + 1;
 			int fmt_status = 0;
 			size_t fmt_begin = 0;
