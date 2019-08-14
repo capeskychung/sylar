@@ -130,7 +130,8 @@ namespace sylar {
 	}
 
 	void Logger::addAppender(LogAppender::ptr appender) {
-		if (appender->getFormatter()) {
+		if (!appender->getFormatter()) {
+			std::cout << "setFormatter " << m_formatter << std::endl; 
 			appender->setFormatter(m_formatter);
 		}
 		m_appenders.push_back(appender);
